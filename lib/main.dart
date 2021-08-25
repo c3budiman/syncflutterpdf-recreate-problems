@@ -39,6 +39,18 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _pdfViewerController = PdfViewerController();
+    doInit();
+  }
+
+  void doInit() {
+    new Future.delayed(const Duration(seconds: 2), () async {
+      try {
+        _searchResult = (await _pdfViewerController.searchText("material"));
+        if (mounted) {
+          setState(() {});
+        }
+      } catch (e) {}
+    });
   }
 
   @override
@@ -47,16 +59,14 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            // SfPdfViewer.network(
-            //   "https://uca0dd29420da5e8fc449714e9e7.dl.dropboxusercontent.com/cd/0/get/BU5qFTvCv6esVeUjRdRfMvbyjXQqHzFWJyshFXnPUBLA_jfOot9sKdZmmCFeH24rNFXTt0RmcfPsMEib_59X-iTduwvG28VZCJXToafDokgaP-nPoXjkrlQfoBrYkeMoRTPUDjOCXQXP7hMzA8s2cGxz/file?dl=1#",
-            //   controller: _pdfViewerController,
-            // ),
-          ],
-        ),
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          SfPdfViewer.network(
+            "https://github.com/c3budiman/syncflutterpdf-recreate-problems/raw/master/assets/pdf/tes.pdf",
+            controller: _pdfViewerController,
+          ),
+        ],
       ),
     );
   }
